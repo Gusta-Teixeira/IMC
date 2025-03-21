@@ -1,7 +1,12 @@
 package com.ifsc.imc;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -11,56 +16,33 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
-
+    Button btCalcula;
+    EditText edPeso, edAltura;
+    String wTexto;
+    float wIMC=0, wAltura=0;
+    ImageView imgPrincipal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        Log.d("ciclodevida", "onCreate");
-        Toast.makeText(this, "onCreate", Toast.LENGTH_LONG).show();
-    }
+        btCalcula    = findViewById(R.id.button);
+        edPeso       = findViewById(R.id.edPeso);
+        edAltura     = findViewById(R.id.edAltura);
+        imgPrincipal = findViewById(R.id.imgGeral);
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d("ciclodevida", "onStart");
-        Toast.makeText(this, "onStart", Toast.LENGTH_LONG).show();
-    }
+        btCalcula.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                wAltura = (Float.valueOf(edAltura.getText().toString())) / 100;
+                wIMC = Float.valueOf(edPeso.getText().toString()) / (wAltura * wAltura);
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("ciclodevida", "onResume");
-        Toast.makeText(this, "onResume", Toast.LENGTH_LONG).show();
+                Intent i = new Intent(getApplicationContext(), MsgActivity.class);
+                i.putExtra("IMC", Float.toString(wIMC));
+                i.putExtra("Peso", edPeso.getText().toString());
+                i.putExtra("Altura", Float.toString(wAltura));
+                startActivity(i);
+            }
+        });
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("ciclodevida", "onPause");
-        Toast.makeText(this, "onPause", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d("ciclodevida", "onStop");
-        Toast.makeText(this, "onStop", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d("ciclodevida", "onRestart");
-        Toast.makeText(this, "onRestart", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d("ciclodevida", "onDestroy");
-        Toast.makeText(this, "onDestroy", Toast.LENGTH_LONG).show();
-    }
-
 }
